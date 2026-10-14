@@ -108,26 +108,12 @@
 <body>
   <header>
     <div class="header-row">
-      <div><h1 data-i18n="title">Esplora le manifestazioni</h1><p data-i18n="subtitle">Carica il JSON di <code>manifestazioni</code> e trova eventi e gare con i filtri.</p></div>
+      <div><h1 data-i18n="title">Esplora le manifestazioni</h1><p data-i18n="subtitle">I dati delle corse vengono caricati automaticamente da <code>corridas.json</code>.</p></div>
       <label class="language-control"><span data-i18n="language">Lingua</span><select id="language" aria-label="Lingua"><option value="it">Italiano</option><option value="en">English</option></select></label>
     </div>
   </header>
   <main>
-    <section class="panel import-panel" aria-labelledby="import-title">
-      <h2 id="import-title" data-i18n="data">Dati</h2>
-      <div class="import-actions">
-        <label class="file-button" for="file" data-i18n="chooseJson">Scegli file JSON</label>
-        <input id="file" type="file" accept=".json,application/json">
-        <button id="paste-toggle" class="secondary" type="button" data-i18n="pasteJson">Incolla JSON</button>
-        <button id="fetch-button" class="secondary" type="button" title="Prova a consultare l'API nel browser" data-i18n="fetchApi">Recupera dall'API</button>
-        <span id="status" class="status" role="status" data-i18n="noData">Nessun dato caricato.</span>
-      </div>
-      <details id="paste-area">
-        <summary data-i18n="pasteHint">Incolla o controlla il JSON</summary>
-        <textarea id="json-input" spellcheck="false" data-i18n-placeholder="jsonPlaceholder" placeholder='Incolla qui la risposta completa, ad esempio: { "manifestazioni": [...] }'></textarea>
-        <button id="load-paste" type="button" data-i18n="loadPasted">Carica JSON incollato</button>
-      </details>
-    </section>
+    <p id="status" class="status" role="status">Caricamento di corridas.json…</p>
     <div class="layout">
       <aside id="filters-panel" class="panel filters" aria-labelledby="filter-title" aria-hidden="false">
         <h2 id="filter-title" data-i18n="filters">Filtri</h2>
@@ -147,7 +133,7 @@
       </aside>
       <section aria-label="Risultati" data-i18n-aria="results">
         <div class="results-head"><strong id="count">0 eventi</strong><span id="race-count">0 gare</span></div>
-        <div id="results"><div class="panel empty" data-i18n="initialEmpty">Carica un file o incolla un JSON per iniziare.</div></div>
+        <div id="results"><div class="panel empty" data-i18n="initialEmpty">Caricamento delle corse…</div></div>
       </section>
     </div>
   </main>
@@ -158,10 +144,10 @@
     const $ = (selector) => document.querySelector(selector);
     const translations = {
       it: {
-        title: 'Esplora le manifestazioni', subtitle: 'Carica il JSON di <code>manifestazioni</code> e trova eventi e gare con i filtri.', language: 'Lingua', data: 'Dati', chooseJson: 'Scegli file JSON', pasteJson: 'Incolla JSON', fetchApi: "Recupera dall'API", fetchApiTitle: "Prova a consultare l'API nel browser", noData: 'Nessun dato caricato.', pasteHint: 'Incolla o controlla il JSON', jsonPlaceholder: 'Incolla qui la risposta completa, ad esempio: { "manifestazioni": [...] }', loadPasted: 'Carica JSON incollato', filters: 'Filtri', searchLabel: 'Nome, località o organizzatore', searchPlaceholder: 'Es.: Torino, mezza, A.S.D.', locality: 'Località', province: 'Provincia', allFem: 'Tutte', allMasc: 'Tutti', fromDate: 'Data di inizio', toDate: 'Data di fine', weekday: 'Giorno della settimana', raceName: 'Nome della gara', racePlaceholder: 'Es.: 10 km, competitiva', competitive: 'Solo gare competitive', certified: 'Solo gare certificate', national: 'Solo gare nazionali', clearFilters: 'Cancella filtri', results: 'Risultati', initialEmpty: 'Carica un file o incolla un JSON per iniziare.', backToTop: "Torna all'inizio", noResults: 'Nessun evento corrisponde ai filtri.', event: 'evento', events: 'eventi', race: 'gara', races: 'gare', eventUnnamed: 'Manifestazione senza nome', raceUnnamed: 'Gara senza nome', organizerSite: "Sito dell'organizzazione", competitiveBadge: 'Competitiva', certifiedBadge: 'Certificata', nationalBadge: 'Nazionale', site: 'Sito', flyer: 'Volantino', map: 'Google Maps', meetingHour: 'Ritrovo', start: 'Partenza', loaded: 'Dati caricati', pastedLabel: 'JSON incollato', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Formato non riconosciuto. Il JSON deve contenere una lista "manifestazioni".', apiLoading: "Richiesta all'API in corso…", apiInvalid: 'La risposta API non è un JSON valido. Il testo è disponibile qui sotto.', apiError: "Impossibile recuperare i dati dall'API ({error}). Il browser potrebbe bloccare la richiesta per CORS o richiedere una sessione. Scarica il JSON e importalo.", fileError: 'Impossibile leggere il file: {error}', pasteError: 'JSON non valido: {error}'
+        title: 'Esplora le manifestazioni', subtitle: 'I dati delle corse vengono caricati automaticamente da <code>corridas.json</code>.', language: 'Lingua', data: 'Dati', chooseJson: 'Scegli file JSON', pasteJson: 'Incolla JSON', fetchApi: "Recupera dall'API", fetchApiTitle: "Prova a consultare l'API nel browser", noData: 'Nessun dato caricato.', pasteHint: 'Incolla o controlla il JSON', jsonPlaceholder: 'Incolla qui la risposta completa, ad esempio: { "manifestazioni": [...] }', loadPasted: 'Carica JSON incollato', filters: 'Filtri', searchLabel: 'Nome, località o organizzatore', searchPlaceholder: 'Es.: Torino, mezza, A.S.D.', locality: 'Località', province: 'Provincia', allFem: 'Tutte', allMasc: 'Tutti', fromDate: 'Data di inizio', toDate: 'Data di fine', weekday: 'Giorno della settimana', raceName: 'Nome della gara', racePlaceholder: 'Es.: 10 km, competitiva', competitive: 'Solo gare competitive', certified: 'Solo gare certificate', national: 'Solo gare nazionali', clearFilters: 'Cancella filtri', results: 'Risultati', initialEmpty: 'Caricamento delle corse…', backToTop: "Torna all'inizio", noResults: 'Nessun evento corrisponde ai filtri.', event: 'evento', events: 'eventi', race: 'gara', races: 'gare', eventUnnamed: 'Manifestazione senza nome', raceUnnamed: 'Gara senza nome', organizerSite: "Sito dell'organizzazione", competitiveBadge: 'Competitiva', certifiedBadge: 'Certificata', nationalBadge: 'Nazionale', site: 'Sito', flyer: 'Volantino', map: 'Google Maps', meetingHour: 'Ritrovo', start: 'Partenza', loadingData: 'Caricamento di corridas.json…', dataLoadError: 'Impossibile caricare corridas.json ({error}). Apri la pagina tramite un server web.', loaded: 'Dati caricati', pastedLabel: 'JSON incollato', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Formato non riconosciuto. Il JSON deve contenere una lista "manifestazioni".', apiLoading: "Richiesta all'API in corso…", apiInvalid: 'La risposta API non è un JSON valido. Il testo è disponibile qui sotto.', apiError: "Impossibile recuperare i dati dall'API ({error}). Il browser potrebbe bloccare la richiesta per CORS o richiedere una sessione. Scarica il JSON e importalo.", fileError: 'Impossibile leggere il file: {error}', pasteError: 'JSON non valido: {error}'
       },
       en: {
-        title: 'Race explorer', subtitle: 'Load the <code>manifestazioni</code> JSON and find events and races with filters.', language: 'Language', data: 'Data', chooseJson: 'Choose JSON file', pasteJson: 'Paste JSON', fetchApi: 'Fetch from API', fetchApiTitle: 'Try to fetch data from the API in your browser', noData: 'No data loaded.', pasteHint: 'Paste or inspect JSON', jsonPlaceholder: 'Paste the complete response here, for example: { "manifestazioni": [...] }', loadPasted: 'Load pasted JSON', filters: 'Filters', searchLabel: 'Name, location, or organizer', searchPlaceholder: 'E.g. Torino, half marathon, A.S.D.', locality: 'Location', province: 'Province', allFem: 'All', allMasc: 'All', fromDate: 'Start date', toDate: 'End date', weekday: 'Day of the week', raceName: 'Race name', racePlaceholder: 'E.g. 10 km, competitive', competitive: 'Competitive races only', certified: 'Certified races only', national: 'National races only', clearFilters: 'Clear filters', results: 'Results', initialEmpty: 'Load a file or paste JSON to get started.', backToTop: 'Back to top', noResults: 'No events match the filters.', event: 'event', events: 'events', race: 'race', races: 'races', eventUnnamed: 'Unnamed event', raceUnnamed: 'Unnamed race', organizerSite: 'Organizer website', competitiveBadge: 'Competitive', certifiedBadge: 'Certified', nationalBadge: 'National', site: 'Website', flyer: 'Flyer', map: 'Google Maps', meetingHour: 'Meeting point', start: 'Start', loaded: 'Data loaded', pastedLabel: 'Pasted JSON', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Unrecognized format. The JSON must contain a "manifestazioni" list.', apiLoading: 'Contacting the API…', apiInvalid: 'The API response is not valid JSON. The text is available below.', apiError: 'Could not fetch the API ({error}). The browser may block the request because of CORS or require a session. Download and import the JSON.', fileError: 'Could not read the file: {error}', pasteError: 'Invalid JSON: {error}'
+        title: 'Race explorer', subtitle: 'Race data loads automatically from <code>corridas.json</code>.', language: 'Language', data: 'Data', chooseJson: 'Choose JSON file', pasteJson: 'Paste JSON', fetchApi: 'Fetch from API', fetchApiTitle: 'Try to fetch data from the API in your browser', noData: 'No data loaded.', pasteHint: 'Paste or inspect JSON', jsonPlaceholder: 'Paste the complete response here, for example: { "manifestazioni": [...] }', loadPasted: 'Load pasted JSON', filters: 'Filters', searchLabel: 'Name, location, or organizer', searchPlaceholder: 'E.g. Torino, half marathon, A.S.D.', locality: 'Location', province: 'Province', allFem: 'All', allMasc: 'All', fromDate: 'Start date', toDate: 'End date', weekday: 'Day of the week', raceName: 'Race name', racePlaceholder: 'E.g. 10 km, competitive', competitive: 'Competitive races only', certified: 'Certified races only', national: 'National races only', clearFilters: 'Clear filters', results: 'Results', initialEmpty: 'Loading races…', backToTop: 'Back to top', noResults: 'No events match the filters.', event: 'event', events: 'events', race: 'race', races: 'races', eventUnnamed: 'Unnamed event', raceUnnamed: 'Unnamed race', organizerSite: 'Organizer website', competitiveBadge: 'Competitive', certifiedBadge: 'Certified', nationalBadge: 'National', site: 'Website', flyer: 'Flyer', map: 'Google Maps', meetingHour: 'Meeting point', start: 'Start', loadingData: 'Loading corridas.json…', dataLoadError: 'Could not load corridas.json ({error}). Open the page through a web server.', loaded: 'Data loaded', pastedLabel: 'Pasted JSON', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Unrecognized format. The JSON must contain a "manifestazioni" list.', apiLoading: 'Contacting the API…', apiInvalid: 'The API response is not valid JSON. The text is available below.', apiError: 'Could not fetch the API ({error}). The browser may block the request because of CORS or require a session. Download and import the JSON.', fileError: 'Could not read the file: {error}', pasteError: 'Invalid JSON: {error}'
       }
     };
     let currentLanguage = 'it';
@@ -174,7 +160,6 @@
       document.querySelectorAll('[data-i18n-placeholder]').forEach(element => { element.placeholder = t(element.dataset.i18nPlaceholder); });
       document.querySelectorAll('[data-i18n-aria]').forEach(element => { element.setAttribute('aria-label', t(element.dataset.i18nAria)); });
       document.querySelectorAll('[data-i18n-title]').forEach(element => { element.title = t(element.dataset.i18nTitle); });
-      $('#fetch-button').title = t('fetchApiTitle');
       if ($('#status').dataset.statusKey) {
         const values = JSON.parse($('#status').dataset.statusValues || '{}');
         if ($('#status').dataset.statusKey === 'loadedNamed') values.noun = values.count === 1 ? t('event') : t('events');
@@ -280,41 +265,22 @@
       $('#race-count').textContent = `${raceTotal} ${raceTotal === 1 ? t('race') : t('races')}`;
       $('#results').innerHTML = filtered.length ? filtered.map(renderEvent).join('') : `<div class="panel empty">${t('noResults')}</div>`;
     }
-    $('#file').addEventListener('change', async (event) => {
-      const file = event.target.files?.[0]; if (!file) return;
-      try { setData(JSON.parse(await file.text()), file.name); }
-      catch (error) { status.dataset.statusKey = 'fileError'; status.dataset.statusValues = JSON.stringify({ error: error.message }); status.textContent = t('fileError', { error: error.message }); }
-    });
-    $('#paste-toggle').addEventListener('click', () => { $('#paste-area').open = !$('#paste-area').open; $('#paste-area').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
-    $('#load-paste').addEventListener('click', () => {
-      try { setData(JSON.parse($('#json-input').value), t('pastedLabel')); }
-      catch (error) { status.dataset.statusKey = 'pasteError'; status.dataset.statusValues = JSON.stringify({ error: error.message }); status.textContent = t('pasteError', { error: error.message }); }
-    });
-    $('#fetch-button').addEventListener('click', async () => {
-      status.dataset.statusKey = 'apiLoading'; status.dataset.statusValues = '{}'; status.textContent = t('apiLoading');
-      const body = 'Data%5B%5D=%7B%22anno%22%3A%222026%22%2C%22sito%22%3A%221%22%2C%22circ%22%3A%22any%22%2C%22subc%22%3A%22any%22%2C%22presentation%22%3A%22iru%22%2C%22attitude%22%3A%22any%22%2C%22mode%22%3A1%2C%22tab_requested%22%3A-1%7D';
+    async function loadRaces() {
+      status.dataset.statusKey = 'loadingData';
+      status.dataset.statusValues = '{}';
+      status.textContent = t('loadingData');
       try {
-        const response = await fetch('https://www.irunning.it/api/man.php', {
-          method: 'POST',
-          credentials: 'include',
-          referrer: 'https://www.irunning.it/',
-          headers: {
-            'Accept': '*/*',
-            'Accept-Language': 'it-IT,it;q=0.8',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Priority': 'u=1, i',
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          body
-        });
+        const response = await fetch('./corridas.json', { cache: 'no-cache' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const raw = await response.text();
-        try { setData(JSON.parse(raw), 'API'); }
-        catch { $('#json-input').value = raw; $('#paste-area').open = true; status.dataset.statusKey = 'apiInvalid'; status.dataset.statusValues = '{}'; status.textContent = t('apiInvalid'); }
+        setData(await response.json(), 'corridas.json');
       } catch (error) {
-        status.dataset.statusKey = 'apiError'; status.dataset.statusValues = JSON.stringify({ error: error.message }); status.textContent = t('apiError', { error: error.message });
+        status.dataset.statusKey = 'dataLoadError';
+        status.dataset.statusValues = JSON.stringify({ error: error.message });
+        status.textContent = t('dataLoadError', { error: error.message });
+        $('#results').innerHTML = `<div class="panel empty">${esc(status.textContent)}</div>`;
       }
-    });
+    }
+    loadRaces();
     ['search','locality','province','from-date','to-date','weekday','race-search','competitive','certified','national'].forEach(id => $(`#${id}`).addEventListener('input', render));
     ['locality','province','weekday','competitive','certified','national'].forEach(id => $(`#${id}`).addEventListener('change', () => {
       if (window.matchMedia('(max-width: 760px)').matches) closeMobileFilters();
