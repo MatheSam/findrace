@@ -38,12 +38,16 @@
     .field { display: grid; gap: 6px; margin: 0 0 13px; }
     .field label { color: #45564c; font-size: .84rem; font-weight: 650; }
     .field input, .field select { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid #d4ddd5; border-radius: 8px; background: #fff; color: #17211d; }
+    .date-control { display: grid; grid-template-columns: minmax(0, 1fr) 42px; gap: 6px; position: relative; }
+    .date-picker-button { padding: 8px; color: #214337; background: #e8f1eb; }
+    .date-picker-button:hover { background: #dce9df; }
+    .date-control .date-picker-native { position: absolute; width: 1px; height: 1px; padding: 0; border: 0; opacity: 0; overflow: hidden; pointer-events: none; }
     .check { display: flex; align-items: center; gap: 8px; margin: 10px 0; color: #35483e; font-size: .9rem; }
     .check input { accent-color: #17684f; }
     .filter-buttons { display: flex; gap: 8px; margin-top: 16px; position: sticky; bottom: 0; padding-top: 10px; background: #fff; flex: 0 0 auto; }
     .filter-buttons button { flex: 1; padding: 9px; }
     .results-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; margin: 2px 2px 12px; }
-    .results-head strong { font-size: 1.05rem; }
+    .results-head strong { font-size: 1.05rem; text-transform: uppercase; }
     .results-head span { color: #64736a; font-size: .9rem; }
     #results { display: grid; gap: 13px; }
     .event { padding: 0; overflow: hidden; }
@@ -68,7 +72,9 @@
     a { color: #17684f; font-size: .83rem; font-weight: 600; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .empty { padding: 28px; text-align: center; color: #64736a; }
-    .mobile-filter-toggle, .back-to-top, .filter-scrim { display: none; }
+    .mobile-filter-toggle, .filter-scrim { display: none; }
+    .back-to-top { display: block; position: fixed; z-index: 20; right: 22px; bottom: 22px; width: 48px; height: 48px; padding: 0; border-radius: 50%; box-shadow: 0 5px 18px #102b2345; opacity: 0; visibility: hidden; transform: translateY(8px); transition: .2s; }
+    .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
     @media (max-width: 760px) {
       header { padding: 22px 18px; }
       .header-row { align-items: center; }
@@ -82,7 +88,7 @@
       body.filters-open .filter-scrim { opacity: 1; visibility: visible; }
       .filter-content { overflow-y: auto; padding: 0 4px 8px 0; }
       .filter-buttons { position: sticky; bottom: 0; padding: 12px 0 0; background: #fff; }
-      .back-to-top { display: block; position: fixed; z-index: 20; left: 16px; bottom: 18px; width: 48px; height: 48px; padding: 0; border-radius: 50%; box-shadow: 0 5px 18px #102b2345; opacity: 0; visibility: hidden; transform: translateY(8px); transition: .2s; }
+      .back-to-top { right: 16px; bottom: 78px; }
       .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
       .import-panel { padding: 16px; }
       .import-actions { align-items: stretch; }
@@ -108,12 +114,12 @@
 <body>
   <header>
     <div class="header-row">
-      <div><h1 data-i18n="title">Esplora le manifestazioni</h1><p data-i18n="subtitle">I dati delle corse vengono caricati automaticamente da <code>corridas.json</code>.</p></div>
+      <div><h1 data-i18n="title">Esplora le manifestazioni</h1></div>
       <label class="language-control"><span data-i18n="language">Lingua</span><select id="language" aria-label="Lingua"><option value="it">Italiano</option><option value="en">English</option></select></label>
     </div>
   </header>
   <main>
-    <p id="status" class="status" role="status">Caricamento di corridas.json…</p>
+    <span id="status" role="status" hidden></span>
     <div class="layout">
       <aside id="filters-panel" class="panel filters" aria-labelledby="filter-title" aria-hidden="false">
         <h2 id="filter-title" data-i18n="filters">Filtri</h2>
@@ -121,8 +127,8 @@
         <div class="field"><label for="search" data-i18n="searchLabel">Nome, località o organizzatore</label><input id="search" type="search" data-i18n-placeholder="searchPlaceholder" placeholder="Es.: Torino, mezza, A.S.D."></div>
         <div class="field"><label for="locality" data-i18n="locality">Località</label><select id="locality"><option value="" data-i18n="allFem">Tutte</option></select></div>
         <div class="field"><label for="province" data-i18n="province">Provincia</label><select id="province"><option value="" data-i18n="allFem">Tutte</option></select></div>
-        <div class="field"><label for="from-date" data-i18n="fromDate">Data di inizio</label><input id="from-date" type="date"></div>
-        <div class="field"><label for="to-date" data-i18n="toDate">Data di fine</label><input id="to-date" type="date"></div>
+        <div class="field"><label for="from-date" data-i18n="fromDate">Data di inizio</label><div class="date-control"><input id="from-date" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/yyyy" data-i18n-placeholder="datePlaceholder"><button id="from-date-calendar-button" class="date-picker-button" type="button" data-i18n-aria="chooseDate" aria-label="Seleziona data">📅</button><input id="from-date-calendar" class="date-picker-native" type="date" tabindex="-1" aria-hidden="true" lang="it-IT"></div></div>
+        <div class="field"><label for="to-date" data-i18n="toDate">Data di fine</label><div class="date-control"><input id="to-date" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/yyyy" data-i18n-placeholder="datePlaceholder"><button id="to-date-calendar-button" class="date-picker-button" type="button" data-i18n-aria="chooseDate" aria-label="Seleziona data">📅</button><input id="to-date-calendar" class="date-picker-native" type="date" tabindex="-1" aria-hidden="true" lang="it-IT"></div></div>
         <div class="field"><label for="weekday" data-i18n="weekday">Giorno della settimana</label><select id="weekday"><option value="" data-i18n="allMasc">Tutti</option></select></div>
         <div class="field"><label for="race-search" data-i18n="raceName">Nome della gara</label><input id="race-search" type="search" data-i18n-placeholder="racePlaceholder" placeholder="Es.: 10 km, competitiva"></div>
         <label class="check"><input id="competitive" type="checkbox" data-i18n-aria="competitive"> <span data-i18n="competitive">Solo gare competitive</span></label>
@@ -132,7 +138,7 @@
         <div class="filter-buttons"><button id="clear-filters" class="secondary" type="button" data-i18n="clearFilters">Cancella filtri</button></div>
       </aside>
       <section aria-label="Risultati" data-i18n-aria="results">
-        <div class="results-head"><strong id="count">0 eventi</strong><span id="race-count">0 gare</span></div>
+        <div class="results-head"><strong id="count">0 gare a partire da oggi</strong></div>
         <div id="results"><div class="panel empty" data-i18n="initialEmpty">Caricamento delle corse…</div></div>
       </section>
     </div>
@@ -144,10 +150,10 @@
     const $ = (selector) => document.querySelector(selector);
     const translations = {
       it: {
-        title: 'Esplora le manifestazioni', subtitle: 'I dati delle corse vengono caricati automaticamente da <code>corridas.json</code>.', language: 'Lingua', data: 'Dati', chooseJson: 'Scegli file JSON', pasteJson: 'Incolla JSON', fetchApi: "Recupera dall'API", fetchApiTitle: "Prova a consultare l'API nel browser", noData: 'Nessun dato caricato.', pasteHint: 'Incolla o controlla il JSON', jsonPlaceholder: 'Incolla qui la risposta completa, ad esempio: { "manifestazioni": [...] }', loadPasted: 'Carica JSON incollato', filters: 'Filtri', searchLabel: 'Nome, località o organizzatore', searchPlaceholder: 'Es.: Torino, mezza, A.S.D.', locality: 'Località', province: 'Provincia', allFem: 'Tutte', allMasc: 'Tutti', fromDate: 'Data di inizio', toDate: 'Data di fine', weekday: 'Giorno della settimana', raceName: 'Nome della gara', racePlaceholder: 'Es.: 10 km, competitiva', competitive: 'Solo gare competitive', certified: 'Solo gare certificate', national: 'Solo gare nazionali', clearFilters: 'Cancella filtri', results: 'Risultati', initialEmpty: 'Caricamento delle corse…', backToTop: "Torna all'inizio", noResults: 'Nessun evento corrisponde ai filtri.', event: 'evento', events: 'eventi', race: 'gara', races: 'gare', eventUnnamed: 'Manifestazione senza nome', raceUnnamed: 'Gara senza nome', organizerSite: "Sito dell'organizzazione", competitiveBadge: 'Competitiva', certifiedBadge: 'Certificata', nationalBadge: 'Nazionale', site: 'Sito', flyer: 'Volantino', map: 'Google Maps', meetingHour: 'Ritrovo', start: 'Partenza', loadingData: 'Caricamento di corridas.json…', dataLoadError: 'Impossibile caricare corridas.json ({error}). Apri la pagina tramite un server web.', loaded: 'Dati caricati', pastedLabel: 'JSON incollato', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Formato non riconosciuto. Il JSON deve contenere una lista "manifestazioni".', apiLoading: "Richiesta all'API in corso…", apiInvalid: 'La risposta API non è un JSON valido. Il testo è disponibile qui sotto.', apiError: "Impossibile recuperare i dati dall'API ({error}). Il browser potrebbe bloccare la richiesta per CORS o richiedere una sessione. Scarica il JSON e importalo.", fileError: 'Impossibile leggere il file: {error}', pasteError: 'JSON non valido: {error}'
+        title: 'Esplora le corse',  language: 'Lingua', data: 'Dati', chooseJson: 'Scegli file JSON', pasteJson: 'Incolla JSON', fetchApi: "Recupera dall'API", fetchApiTitle: "Prova a consultare l'API nel browser", noData: 'Nessun dato caricato.', pasteHint: 'Incolla o controlla il JSON', jsonPlaceholder: 'Incolla qui la risposta completa, ad esempio: { "manifestazioni": [...] }', loadPasted: 'Carica JSON incollato', filters: 'Filtri', searchLabel: 'Nome, località o organizzatore', searchPlaceholder: 'Es.: Torino, mezza, A.S.D.', locality: 'Località', province: 'Provincia', allFem: 'Tutte', allMasc: 'Tutti', fromDate: 'Data di inizio', toDate: 'Data di fine', datePlaceholder: 'dd/mm/yyyy', chooseDate: 'Seleziona data', weekday: 'Giorno della settimana', raceName: 'Nome della gara', racePlaceholder: 'Es.: 10 km, competitiva', competitive: 'Solo gare competitive', certified: 'Solo gare certificate', national: 'Solo gare nazionali', clearFilters: 'Cancella filtri', results: 'Risultati', initialEmpty: 'Caricamento delle corse…', backToTop: "Torna all'inizio", noResults: 'Nessun evento corrisponde ai filtri.', event: 'evento', events: 'eventi', race: 'gara', races: 'gare', foundRaces: '{count} gare trovate', upcomingFromToday: '{count} gare a partire da oggi', upcomingFromDate: '{count} gare a partire dal {date}', eventUnnamed: 'Manifestazione senza nome', raceUnnamed: 'Gara senza nome', organizerSite: "Sito dell'organizzazione", competitiveBadge: 'Competitiva', certifiedBadge: 'Certificata', nationalBadge: 'Nazionale', site: 'Sito', flyer: 'Volantino', map: 'Google Maps', meetingHour: 'Ritrovo', start: 'Partenza', loadingData: 'Caricamento di corridas.json…', dataLoadError: 'Impossibile caricare corridas.json ({error}). Apri la pagina tramite un server web.', loaded: 'Dati caricati', pastedLabel: 'JSON incollato', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Formato non riconosciuto. Il JSON deve contenere una lista "manifestazioni".', apiLoading: "Richiesta all'API in corso…", apiInvalid: 'La risposta API non è un JSON valido. Il testo è disponibile qui sotto.', apiError: "Impossibile recuperare i dati dall'API ({error}). Il browser potrebbe bloccare la richiesta per CORS o richiedere una sessione. Scarica il JSON e importalo.", fileError: 'Impossibile leggere il file: {error}', pasteError: 'JSON non valido: {error}'
       },
       en: {
-        title: 'Race explorer', subtitle: 'Race data loads automatically from <code>corridas.json</code>.', language: 'Language', data: 'Data', chooseJson: 'Choose JSON file', pasteJson: 'Paste JSON', fetchApi: 'Fetch from API', fetchApiTitle: 'Try to fetch data from the API in your browser', noData: 'No data loaded.', pasteHint: 'Paste or inspect JSON', jsonPlaceholder: 'Paste the complete response here, for example: { "manifestazioni": [...] }', loadPasted: 'Load pasted JSON', filters: 'Filters', searchLabel: 'Name, location, or organizer', searchPlaceholder: 'E.g. Torino, half marathon, A.S.D.', locality: 'Location', province: 'Province', allFem: 'All', allMasc: 'All', fromDate: 'Start date', toDate: 'End date', weekday: 'Day of the week', raceName: 'Race name', racePlaceholder: 'E.g. 10 km, competitive', competitive: 'Competitive races only', certified: 'Certified races only', national: 'National races only', clearFilters: 'Clear filters', results: 'Results', initialEmpty: 'Loading races…', backToTop: 'Back to top', noResults: 'No events match the filters.', event: 'event', events: 'events', race: 'race', races: 'races', eventUnnamed: 'Unnamed event', raceUnnamed: 'Unnamed race', organizerSite: 'Organizer website', competitiveBadge: 'Competitive', certifiedBadge: 'Certified', nationalBadge: 'National', site: 'Website', flyer: 'Flyer', map: 'Google Maps', meetingHour: 'Meeting point', start: 'Start', loadingData: 'Loading corridas.json…', dataLoadError: 'Could not load corridas.json ({error}). Open the page through a web server.', loaded: 'Data loaded', pastedLabel: 'Pasted JSON', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Unrecognized format. The JSON must contain a "manifestazioni" list.', apiLoading: 'Contacting the API…', apiInvalid: 'The API response is not valid JSON. The text is available below.', apiError: 'Could not fetch the API ({error}). The browser may block the request because of CORS or require a session. Download and import the JSON.', fileError: 'Could not read the file: {error}', pasteError: 'Invalid JSON: {error}'
+        title: 'Race explorer', language: 'Language', data: 'Data', chooseJson: 'Choose JSON file', pasteJson: 'Paste JSON', fetchApi: 'Fetch from API', fetchApiTitle: 'Try to fetch data from the API in your browser', noData: 'No data loaded.', pasteHint: 'Paste or inspect JSON', jsonPlaceholder: 'Paste the complete response here, for example: { "manifestazioni": [...] }', loadPasted: 'Load pasted JSON', filters: 'Filters', searchLabel: 'Name, location, or organizer', searchPlaceholder: 'E.g. Torino, half marathon, A.S.D.', locality: 'Location', province: 'Province', allFem: 'All', allMasc: 'All', fromDate: 'Start date', toDate: 'End date', datePlaceholder: 'dd/mm/yyyy', chooseDate: 'Choose date', weekday: 'Day of the week', raceName: 'Race name', racePlaceholder: 'E.g. 10 km, competitive', competitive: 'Competitive races only', certified: 'Certified races only', national: 'National races only', clearFilters: 'Clear filters', results: 'Results', initialEmpty: 'Loading races…', backToTop: 'Back to top', noResults: 'No events match the filters.', event: 'event', events: 'events', race: 'race', races: 'races', foundRaces: '{count} races found', upcomingFromToday: '{count} races from today', upcomingFromDate: '{count} races from {date}', eventUnnamed: 'Unnamed event', raceUnnamed: 'Unnamed race', organizerSite: 'Organizer website', competitiveBadge: 'Competitive', certifiedBadge: 'Certified', nationalBadge: 'National', site: 'Website', flyer: 'Flyer', map: 'Google Maps', meetingHour: 'Meeting point', start: 'Start', loadingData: 'Loading corridas.json…', dataLoadError: 'Could not load corridas.json ({error}). Open the page through a web server.', loaded: 'Data loaded', pastedLabel: 'Pasted JSON', loadedNamed: '{label}: {count} {noun}.', invalidFormat: 'Unrecognized format. The JSON must contain a "manifestazioni" list.', apiLoading: 'Contacting the API…', apiInvalid: 'The API response is not valid JSON. The text is available below.', apiError: 'Could not fetch the API ({error}). The browser may block the request because of CORS or require a session. Download and import the JSON.', fileError: 'Could not read the file: {error}', pasteError: 'Invalid JSON: {error}'
       }
     };
     let currentLanguage = 'it';
@@ -155,7 +161,9 @@
     function applyLanguage(language) {
       currentLanguage = translations[language] ? language : 'it';
       document.documentElement.lang = currentLanguage;
+      document.querySelectorAll('#from-date, #to-date, #from-date-calendar, #to-date-calendar').forEach(input => { input.lang = currentLanguage === 'en' ? 'en-GB' : 'it-IT'; });
       document.title = currentLanguage === 'it' ? 'Corse — esplora le manifestazioni' : 'Races — event explorer';
+      populateWeekdayOptions();
       document.querySelectorAll('[data-i18n]').forEach(element => { element.innerHTML = t(element.dataset.i18n); });
       document.querySelectorAll('[data-i18n-placeholder]').forEach(element => { element.placeholder = t(element.dataset.i18nPlaceholder); });
       document.querySelectorAll('[data-i18n-aria]').forEach(element => { element.setAttribute('aria-label', t(element.dataset.i18nAria)); });
@@ -179,7 +187,16 @@
       const match = text(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
       return match ? `${match[1]}-${match[2]}-${match[3]}` : '';
     };
-    const formatDate = (value) => {
+    function dateInputValue(value) {
+      const input = text(value).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(input)) return input;
+      const match = input.match(/^(\d{1,2})[/.](\d{1,2})[/.](\d{4})$/);
+      if (!match) return '';
+      const [, day, month, year] = match;
+      const parsed = new Date(Number(year), Number(month) - 1, Number(day));
+      if (parsed.getFullYear() !== Number(year) || parsed.getMonth() !== Number(month) - 1 || parsed.getDate() !== Number(day)) return '';
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }    const formatDate = (value) => {
       const iso = dateValue(value);
       if (!iso) return text(value);
       const [year, month, day] = iso.split('-');
@@ -190,7 +207,8 @@
     function setTodayAsStartDate() {
       const today = new Date();
       const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-      $('#from-date').value = localDate;
+      $('#from-date').value = formatDate(localDate);
+      $('#from-date-calendar').value = localDate;
     }
     function extractEvents(data) {
       const list = Array.isArray(data) ? data : data && Array.isArray(data.manifestazioni) ? data.manifestazioni : null;
@@ -208,13 +226,42 @@
         render();
       } catch (error) { status.dataset.statusKey = 'invalidFormat'; status.dataset.statusValues = '{}'; status.textContent = error.message; }
     }
+    function formatLocality(value) {
+      const normalized = text(value).trim().toLocaleLowerCase('it');
+      return normalized.replace(/^./u, firstLetter => firstLetter.toLocaleUpperCase('it'));
+    }
+    const weekdayOrder = ['lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica'];
+    const weekdayLabels = {
+      lunedi: { it: 'Lunedì', en: 'Monday' },
+      martedi: { it: 'Martedì', en: 'Tuesday' },
+      mercoledi: { it: 'Mercoledì', en: 'Wednesday' },
+      giovedi: { it: 'Giovedì', en: 'Thursday' },
+      venerdi: { it: 'Venerdì', en: 'Friday' },
+      sabato: { it: 'Sabato', en: 'Saturday' },
+      domenica: { it: 'Domenica', en: 'Sunday' }
+    };
+    function weekdayKey(value) {
+      return text(value).trim().toLocaleLowerCase('it').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+    function populateWeekdayOptions() {
+      const selected = $('#weekday').value;
+      const weekdays = [...new Set(events.map(event => weekdayKey(event.dayofweek)).filter(Boolean))].sort((a, b) => {
+        const aIndex = weekdayOrder.indexOf(a);
+        const bIndex = weekdayOrder.indexOf(b);
+        return (aIndex < 0 ? weekdayOrder.length : aIndex) - (bIndex < 0 ? weekdayOrder.length : bIndex) || a.localeCompare(b, currentLanguage);
+      });
+      $('#weekday').innerHTML = `<option value="">${t('allMasc')}</option>` + weekdays.map(day => {
+        const label = weekdayLabels[day]?.[currentLanguage] || day;
+        return `<option value="${esc(day)}">${esc(label)}</option>`;
+      }).join('');
+      $('#weekday').value = selected;
+    }
     function populateOptions() {
       const localities = [...new Set(events.map(e => text(e.localita).trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'it'));
       const provinces = [...new Set(events.map(e => text(e.provincia).trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'it'));
-      const weekdays = [...new Set(events.map(e => text(e.dayofweek).trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'it'));
-      $('#locality').innerHTML = `<option value="">${t('allFem')}</option>` + localities.map(v => `<option value="${esc(v.toLocaleLowerCase())}">${esc(v)}</option>`).join('');
+      $('#locality').innerHTML = `<option value="">${t('allFem')}</option>` + localities.map(v => `<option value="${esc(v.toLocaleLowerCase())}">${esc(formatLocality(v))}</option>`).join('');
       $('#province').innerHTML = `<option value="">${t('allFem')}</option>` + provinces.map(v => `<option value="${esc(v.toLowerCase())}">${esc(v.toUpperCase())}</option>`).join('');
-      $('#weekday').innerHTML = `<option value="">${t('allMasc')}</option>` + weekdays.map(v => `<option value="${esc(v.toLowerCase())}">${esc(v)}</option>`).join('');
+      populateWeekdayOptions();
     }
     function matches(event) {
       
@@ -225,9 +272,11 @@
       if ($('#locality').value && text(event.localita).trim().toLocaleLowerCase() !== $('#locality').value) return false;
       if ($('#province').value && text(event.provincia).toLowerCase() !== $('#province').value) return false;
       const date = dateValue(event.data);
-      if ($('#from-date').value && (!date || date < $('#from-date').value)) return false;
-      if ($('#to-date').value && (!date || date > $('#to-date').value)) return false;
-      if ($('#weekday').value && text(event.dayofweek).toLowerCase() !== $('#weekday').value) return false;
+      const fromDate = dateInputValue($('#from-date').value);
+      const toDate = dateInputValue($('#to-date').value);
+      if (fromDate && (!date || date < fromDate)) return false;
+      if (toDate && (!date || date > toDate)) return false;
+      if ($('#weekday').value && weekdayKey(event.dayofweek) !== $('#weekday').value) return false;
       const races = event.gare || [];
       if (raceQuery && !races.some(g => text(g.nome).toLocaleLowerCase().includes(raceQuery))) return false;
       if ($('#competitive').checked && !races.some(g => isTrue(g.competitive_id))) return false;
@@ -239,6 +288,10 @@
       const href = safeUrl(value);
       return href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(label)} ↗</a>` : '';
     }
+    function emailLink(value) {
+      const emails = text(value).split(/[;,]/).map(email => email.trim()).filter(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+      return emails.length ? `<a href="mailto:${esc(emails.join(','))}">Email ↗</a>` : '';
+    }
     function renderRace(race) {
       const flags = [isTrue(race.competitive_id) ? t('competitiveBadge') : '', isTrue(race.certificata) ? t('certifiedBadge') : '', isTrue(race.nazionale) ? t('nationalBadge') : ''].filter(Boolean);
       const raceDate = race.data ? `<span>${esc(formatDate(race.data))}</span>` : '';
@@ -248,7 +301,7 @@
       const mapLink = Number.isFinite(latitude) && Number.isFinite(longitude)
         ? link(t('map'), `https://www.google.com/maps/place/${latitude},${longitude}`)
         : '';
-      const links = [link(t('site'), race.web_site), link('Facebook', race.fb_site), link('Instagram', race.ig_site), link('YouTube', race.youtube_site), link(t('flyer'), race.url_vol), link('GPX', race.url_gpx), link('Relive', race.relive_site), mapLink].filter(Boolean).join('');
+      const links = [link(t('site'), race.web_site), link('Facebook', race.fb_site), link('Instagram', race.ig_site), emailLink(race.contatto_email), link(t('flyer'), race.url_vol), link('GPX', race.url_gpx), link('Relive', race.relive_site), mapLink].filter(Boolean).join('');
       return `<li class="race"><div class="race-title">${esc(race.nome || t('raceUnnamed'))}</div><div class="race-meta">${raceDate ? `<span><span class="meta-icon" aria-hidden="true">◷</span>${raceDate} ${t('start')}</span>` : ''}${participation ? `<span>${participation}</span>` : ''}${flags.map(flag => `<span class="race-status">${esc(flag)}</span>`).join('')}</div>${links ? `<div class="links">${links}</div>` : ''}</li>`;
     }
     function renderEvent(event) {
@@ -260,9 +313,32 @@
     }
     function render() {
       const filtered = events.filter(matches).sort((a,b) => text(a.data).localeCompare(text(b.data)));
-      const raceTotal = filtered.reduce((n,e) => n + e.gare.length, 0);
-      $('#count').textContent = `${filtered.length} ${filtered.length === 1 ? t('event') : t('events')}`;
-      $('#race-count').textContent = `${raceTotal} ${raceTotal === 1 ? t('race') : t('races')}`;
+      const today = new Date();
+      const todayIso = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+      const startDate = dateInputValue($('#from-date').value);
+      const query = $('#search').value.trim().toLocaleLowerCase();
+      const raceQuery = $('#race-search').value.trim().toLocaleLowerCase();
+      const competitiveOnly = $('#competitive').checked;
+      const certifiedOnly = $('#certified').checked;
+      const nationalOnly = $('#national').checked;
+      const raceTotal = filtered.reduce((total, event) => {
+        const eventMatchesQuery = !query || [event.nome, event.localita, event.provincia, event.asd].join(' ').toLocaleLowerCase().includes(query);
+        const matchingRaces = event.gare.filter(race => {
+          const raceName = text(race.nome).toLocaleLowerCase();
+          if (query && !eventMatchesQuery && !raceName.includes(query)) return false;
+          if (raceQuery && !raceName.includes(raceQuery)) return false;
+          if (competitiveOnly && !isTrue(race.competitive_id)) return false;
+          if (certifiedOnly && !isTrue(race.certificata)) return false;
+          if (nationalOnly && !isTrue(race.nazionale)) return false;
+          return true;
+        });
+        return total + matchingRaces.length;
+      }, 0);
+      let countLabel;
+      if (!startDate) countLabel = t('foundRaces', { count: raceTotal });
+      else if (startDate === todayIso) countLabel = t('upcomingFromToday', { count: raceTotal });
+      else countLabel = t('upcomingFromDate', { count: raceTotal, date: formatDate(startDate) });
+      $('#count').textContent = countLabel;
       $('#results').innerHTML = filtered.length ? filtered.map(renderEvent).join('') : `<div class="panel empty">${t('noResults')}</div>`;
     }
     async function loadRaces() {
@@ -282,12 +358,29 @@
     }
     loadRaces();
     ['search','locality','province','from-date','to-date','weekday','race-search','competitive','certified','national'].forEach(id => $(`#${id}`).addEventListener('input', render));
+    ['from-date','to-date'].forEach(id => $(`#${id}`).addEventListener('change', render));
+    ['from-date', 'to-date'].forEach(id => {
+      const visible = $(`#${id}`);
+      const picker = $(`#${id}-calendar`);
+      const button = $(`#${id}-calendar-button`);
+      button.addEventListener('click', () => {
+        try { if (picker.showPicker) picker.showPicker(); else { picker.focus(); picker.click(); } }
+        catch { picker.focus(); picker.click(); }
+      });
+      visible.addEventListener('input', () => { picker.value = dateInputValue(visible.value); });
+      picker.addEventListener('change', () => {
+        visible.value = picker.value ? formatDate(picker.value) : '';
+        render();
+      });
+    });
     ['locality','province','weekday','competitive','certified','national'].forEach(id => $(`#${id}`).addEventListener('change', () => {
+      render();
       if (window.matchMedia('(max-width: 760px)').matches) closeMobileFilters();
     }));
     $('#clear-filters').addEventListener('click', () => {
       ['search','locality','province','from-date','to-date','weekday','race-search'].forEach(id => $(`#${id}`).value = '');
       ['competitive','certified','national'].forEach(id => $(`#${id}`).checked = false);
+      document.querySelectorAll('#from-date-calendar, #to-date-calendar').forEach(input => input.value = '');
       render();
       closeMobileFilters();
     });
