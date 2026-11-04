@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f35">
+  <meta name="description" content="Una guida completa alla corsa: benefici, distanze, attrezzatura, tecnica, recupero e consigli pratici per iniziare con gradualità.">
+  <title>Guida alla corsa — Corse Vive</title>
+  <style>
+    :root { color-scheme:light; --forest:#173f35; --deep:#113229; --lime:#d7ed78; --ink:#1d2b26; --muted:#68766c; --paper:#fffefa; --canvas:#f5f5ef; --line:#e4e8de; --serif:Georgia,'Times New Roman',serif; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; color:var(--ink); background:var(--canvas); font-synthesis:none; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:100px; }
+    body { margin:0; }
+    a { color:inherit; }
+    .site-header { color:#f8f7ef; background:var(--forest); }
+    .nav-inner { width:min(1200px,calc(100% - 48px)); min-height:76px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { display:inline-flex; align-items:center; gap:11px; color:#fff; text-decoration:none; font-size:.88rem; font-weight:800; letter-spacing:.13em; }
+    .brand:hover { text-decoration:none; }
+    .brand-mark { display:grid; width:36px; height:36px; place-items:center; border-radius:50%; color:var(--forest); background:var(--lime); font-family:var(--serif); font-size:1.2rem; letter-spacing:0; }
+    .nav-links { display:flex; gap:28px; }
+    .nav-links a { color:#d8e2d8; font-size:.88rem; font-weight:650; text-decoration:none; }
+    .nav-links a:hover,.nav-links a[aria-current="page"] { color:var(--lime); }
+    .guide-hero { position:relative; overflow:hidden; color:#f8f7ef; background:var(--forest); }
+    .guide-hero::after { position:absolute; content:''; width:510px; height:510px; right:max(-95px,calc((100vw - 1280px)/2)); top:-190px; border:1px solid #ffffff20; border-radius:50%; box-shadow:0 0 0 45px #ffffff08,0 0 0 95px #ffffff06,0 0 0 145px #ffffff04; }
+    .hero-inner { position:relative; z-index:1; width:min(1200px,calc(100% - 48px)); margin:auto; padding:90px 0 82px; }
+    .eyebrow { display:flex; align-items:center; gap:10px; margin:0 0 20px; color:var(--lime); font-size:.72rem; font-weight:800; letter-spacing:.17em; text-transform:uppercase; }
+    .eyebrow::before { content:''; width:27px; height:1px; background:currentColor; }
+    .guide-hero h1 { max-width:900px; margin:0; font-family:var(--serif); font-size:clamp(3.4rem,8vw,7.3rem); font-weight:400; letter-spacing:-.065em; line-height:.92; }
+    .guide-hero h1 em { color:var(--lime); font-weight:400; }
+    .hero-deck { max-width:640px; margin:24px 0 0; color:#d1ddd3; font-size:1.08rem; line-height:1.75; }
+    .hero-actions { margin-top:30px; }
+    .button-link { display:inline-flex; min-height:48px; align-items:center; gap:10px; padding:0 20px; border-radius:999px; color:var(--forest); background:var(--lime); font-size:.88rem; font-weight:800; text-decoration:none; }
+    .button-link:hover { background:#e4f69b; text-decoration:none; }
+    .hero-note { position:absolute; right:18px; bottom:54px; width:205px; padding:17px; border:1px solid #ffffff35; border-radius:14px; background:#ffffff0c; color:#dce4dc; font-size:.8rem; line-height:1.5; }
+    .hero-note strong { display:block; margin-bottom:5px; color:var(--lime); font-family:var(--serif); font-size:1.8rem; font-weight:400; }
+    .page-wrap { width:min(1200px,calc(100% - 48px)); margin:0 auto; padding:64px 0 92px; }
+    .intro-strip { display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center; padding:0 0 52px; border-bottom:1px solid var(--line); }
+    .intro-strip h2,.section-title { margin:0; font-family:var(--serif); font-size:clamp(2rem,4vw,3.25rem); font-weight:400; letter-spacing:-.045em; line-height:1.05; }
+    .intro-strip p { margin:0; color:var(--muted); font-size:1rem; line-height:1.8; }
+    .article-layout { display:grid; grid-template-columns:220px minmax(0,1fr); gap:66px; align-items:start; padding-top:58px; }
+    .toc { position:sticky; top:28px; padding:20px; border:1px solid var(--line); border-radius:14px; background:var(--paper); }
+    .toc strong { display:block; margin-bottom:13px; font-size:.72rem; letter-spacing:.13em; text-transform:uppercase; }
+    .toc a { display:block; padding:8px 0; color:#58685e; font-size:.83rem; line-height:1.3; text-decoration:none; }
+    .toc a:hover { color:#17684f; }
+    .toc a[aria-current="location"] { padding-left:11px; border-radius:7px; color:#fff; background:var(--forest); font-weight:700; }
+    .article { min-width:0; }
+    .content-section { padding:0 0 54px; margin:0 0 52px; border-bottom:1px solid var(--line); scroll-margin-top:30px; }
+    .section-label { margin:0 0 11px; color:#778574; font-size:.7rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    .content-section > p { max-width:780px; color:#526159; font-size:.98rem; line-height:1.85; }
+    .content-section h3 { margin:26px 0 8px; font-size:1.04rem; }
+    .benefit-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; margin-top:24px; }
+    .benefit-card { min-height:175px; padding:20px; border:1px solid var(--line); border-radius:15px; background:var(--paper); }
+    .benefit-card .number { color:#829167; font-family:var(--serif); font-size:1.1rem; }
+    .benefit-card h3 { margin:16px 0 7px; font-size:1rem; }
+    .benefit-card p { margin:0; color:var(--muted); font-size:.87rem; line-height:1.65; }
+    .note { margin:22px 0 0; padding:18px 20px; border-left:3px solid #9fb864; border-radius:0 10px 10px 0; background:#eef2e4; color:#48564a; font-size:.88rem; line-height:1.7; }
+    .distance-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:23px; }
+    .distance-card { display:flex; gap:16px; padding:17px; border:1px solid var(--line); border-radius:13px; background:var(--paper); }
+    .distance-card strong { min-width:70px; color:#2d5d49; font-family:var(--serif); font-size:1.25rem; font-weight:400; }
+    .distance-card span { color:var(--muted); font-size:.84rem; line-height:1.55; }
+    .steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:23px; counter-reset:steps; }
+    .step { padding:19px; border-radius:14px; background:var(--forest); color:#f7f7ef; counter-increment:steps; }
+    .step::before { content:'0' counter(steps); color:var(--lime); font-family:var(--serif); font-size:1.25rem; }
+    .step h3 { margin:17px 0 7px; font-size:.98rem; }
+    .step p { margin:0; color:#cbd8ce; font-size:.84rem; line-height:1.65; }
+    .week-plan { width:100%; margin:22px 0 0; border-collapse:collapse; overflow:hidden; border-radius:12px; background:var(--paper); font-size:.87rem; }
+    .week-plan th,.week-plan td { padding:13px 15px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; line-height:1.55; }
+    .week-plan th { color:#fff; background:var(--forest); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; }
+    .week-plan td:first-child { width:90px; color:#2d5d49; font-weight:750; }
+    .gear-list { display:grid; gap:10px; margin:20px 0 0; padding:0; list-style:none; }
+    .gear-list li { display:flex; gap:12px; align-items:flex-start; color:#526159; font-size:.91rem; line-height:1.65; }
+    .gear-list li::before { content:'✓'; flex:0 0 22px; display:grid; width:22px; height:22px; place-items:center; border-radius:50%; color:#2e6047; background:#e3edcf; font-weight:800; }
+    .faq { display:grid; gap:10px; margin-top:22px; }
+    .faq details { padding:17px 19px; border:1px solid var(--line); border-radius:12px; background:var(--paper); }
+    .faq summary { color:var(--ink); cursor:pointer; font-weight:700; }
+    .faq p { margin:12px 0 0; color:var(--muted); font-size:.9rem; line-height:1.7; }
+    .sources { display:grid; gap:8px; margin-top:22px; }
+    .sources a { color:#28664e; font-size:.86rem; text-underline-offset:3px; }
+    .closing { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px; padding:31px; border-radius:18px; color:#fff; background:var(--forest); }
+    .closing h2 { max-width:580px; margin:0; font-family:var(--serif); font-size:clamp(1.8rem,4vw,2.9rem); font-weight:400; letter-spacing:-.04em; }
+    .site-footer { padding:30px 24px; color:#e4eae1; background:#15372f; }
+    .footer-inner { width:min(1200px,100%); margin:auto; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:20px; }
+    .footer-inner p { margin:0; color:#bdcbbf; font-size:.82rem; }
+    .footer-inner>a:last-child { color:var(--lime); font-size:.84rem; text-decoration:none; }
+    @media(max-width:820px) { .article-layout { grid-template-columns:1fr; gap:30px; }.toc { position:static; display:grid; grid-template-columns:repeat(2,1fr); gap:0 16px; }.toc strong { grid-column:1/-1; }.hero-note { right:0; bottom:28px; width:170px; }.intro-strip { gap:25px; } }
+    @media(max-width:600px) { .nav-inner,.hero-inner,.page-wrap { width:calc(100% - 32px); }.nav-inner { min-height:68px; gap:12px; flex-wrap:wrap; padding:12px 0; }.brand { gap:7px; font-size:.74rem; letter-spacing:.08em; }.brand-mark { width:31px; height:31px; }.nav-links { flex:1 0 100%; justify-content:center; gap:16px; padding-top:10px; border-top:1px solid #ffffff25; }.nav-links a { font-size:.72rem; }.hero-inner { padding:66px 0 70px; }.guide-hero h1 { font-size:clamp(3.25rem,15vw,5.7rem); }.hero-deck { max-width:500px; font-size:.96rem; }.hero-note { display:none; }.page-wrap { padding:48px 0 64px; }.intro-strip { grid-template-columns:1fr; gap:16px; padding-bottom:38px; }.article-layout { padding-top:38px; }.toc { grid-template-columns:1fr 1fr; padding:16px; }.benefit-grid,.distance-grid,.steps { grid-template-columns:1fr; }.benefit-card { min-height:0; }.week-plan th,.week-plan td { padding:10px 9px; font-size:.78rem; }.closing { padding:23px; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="Corse Vive — pagina iniziale"><span class="brand-mark" aria-hidden="true">C</span><span>CORSE VIVE</span></a>
+      <nav class="nav-links" aria-label="Navigazione principale"><a href="index.html">Trova corse</a><a href="guida.html" aria-current="page">Guida alla corsa</a></nav>
+    </div>
+  </header>
+  <section class="guide-hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Una guida pratica, senza fretta</p>
+      <h1>Correre è molto più che <em>arrivare.</em></h1>
+      <p class="hero-deck">È un modo semplice per stare all'aria aperta, ascoltare il proprio ritmo e scoprire fin dove può portare un passo dopo l'altro. Qui trovi le basi per cominciare, scegliere il tuo obiettivo e vivere la corsa con più consapevolezza.</p>
+      <div class="hero-actions"><a class="button-link" href="#iniziare">Da dove cominciare <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-note"><strong>Il tuo ritmo.</strong>Non serve correre veloce. Il primo traguardo è trovare un'abitudine che ti faccia stare bene.</div>
+    </div>
+  </section>
+  <main class="page-wrap">
+    <section class="intro-strip" aria-labelledby="intro-title">
+      <h2 id="intro-title">Una scarpa allacciata. Un po' di spazio per sé.</h2>
+      <p>La corsa non richiede un percorso perfetto né un cronometro. Può iniziare con pochi minuti alternati alla camminata, in un parco o lungo una strada tranquilla. La distanza e la velocità vengono dopo: prima conta costruire continuità, ascoltando il proprio corpo.</p>
+    </section>
+    <div class="article-layout">
+      <nav class="toc" aria-label="Indice della guida">
+        <strong>In questa guida</strong>
+        <a href="#cos-e">Che cos'è la corsa?</a><a href="#benefici">I benefici</a><a href="#distanze">Le distanze</a><a href="#iniziare">Come iniziare</a><a href="#programma">Un piano graduale</a><a href="#attrezzatura">Cosa serve</a><a href="#tecnica">Ritmo e tecnica</a><a href="#recupero">Recupero e ascolto</a><a href="#gara">La prima gara</a><a href="#domande">Domande frequenti</a><a href="#fonti">Fonti e letture</a>
+      </nav>
+      <article class="article">
+        <section class="content-section" id="cos-e">
+          <p class="section-label">01 · Il movimento</p><h2 class="section-title">Che cos'è, in fondo, la corsa?</h2>
+          <p>La corsa è un modo di spostarsi a piedi in cui il corpo si proietta in avanti con passi ritmici e, per un breve istante, entrambi i piedi possono essere staccati da terra. Può essere un gesto quotidiano e spontaneo oppure un'attività sportiva con allenamenti, distanze e traguardi.</p>
+          <p>Non esiste un solo modo di correre. Si può scegliere un'andatura lenta e rilassata, alternare corsa e camminata o allenarsi per una competizione. Cambia anche il terreno: l'asfalto e le strade di città, la pista, i sentieri di montagna o i parchi offrono esperienze diverse. La corsa migliore per te è quella adatta al tuo momento, al tuo corpo e al tempo che hai a disposizione.</p>
+          <aside class="note">Correre non significa per forza gareggiare o fare velocità. Anche una corsa breve, tranquilla e alternata alla camminata è corsa: il punto di partenza non deve assomigliare al traguardo di qualcun altro.</aside>
+        </section>
+        <section class="content-section" id="benefici">
+          <p class="section-label">02 · Perché correre</p><h2 class="section-title">I benefici di una corsa alla volta.</h2>
+          <p>La corsa è un'attività aerobica accessibile e adattabile: può essere praticata quasi ovunque e modulata in base alla propria esperienza. Inserita con regolarità in una vita attiva, contribuisce al benessere generale. L'Organizzazione Mondiale della Sanità associa l'attività fisica regolare a benefici per la salute fisica e mentale; ogni quantità di movimento è un buon punto di partenza.</p>
+          <div class="benefit-grid">
+            <div class="benefit-card"><span class="number">01 / Corpo</span><h3>Fiato e resistenza</h3><p>Il movimento aerobico allena la capacità di sostenere uno sforzo nel tempo. Partire piano permette di costruire gradualmente la propria base.</p></div>
+            <div class="benefit-card"><span class="number">02 / Energia</span><h3>Una routine attiva</h3><p>Uscire per una corsa può aiutare a interrompere le ore seduti e a rendere il movimento una parte concreta della settimana.</p></div>
+            <div class="benefit-card"><span class="number">03 / Equilibrio</span><h3>Spazio per la mente</h3><p>Una corsa tranquilla può diventare un momento per staccare, stare all'aperto e ritrovare la concentrazione sul presente.</p></div>
+            <div class="benefit-card"><span class="number">04 / Insieme</span><h3>Una comunità da incontrare</h3><p>Gruppi, eventi locali e gare non competitive offrono occasioni per condividere il movimento e sentirsi parte di un percorso.</p></div>
+          </div>
+          <aside class="note">Per gli adulti, l'OMS raccomanda nell'arco della settimana 150–300 minuti di attività aerobica moderata oppure 75–150 minuti di attività intensa, o una combinazione equivalente. È un riferimento generale: anche muoversi meno è meglio che non muoversi. Le esigenze individuali possono cambiare in base alla salute e alla condizione fisica.</aside>
+        </section>
+        <section class="content-section" id="distanze">
+          <p class="section-label">03 · Scegli il tuo traguardo</p><h2 class="section-title">Non c'è una distanza giusta per tutti.</h2>
+          <p>Una gara può essere una festa di paese, una corsa su strada, un trail tra i sentieri o una maratona. Le distanze più comuni danno un'idea dell'impegno richiesto, ma il percorso, il dislivello e il proprio livello contano altrettanto.</p>
+          <div class="distance-grid">
+            <div class="distance-card"><strong>5 km</strong><span>Un primo obiettivo popolare, spesso adatto anche a chi preferisce alternare corsa e camminata.</span></div>
+            <div class="distance-card"><strong>10 km</strong><span>Una distanza che permette di costruire resistenza e imparare a gestire un passo regolare.</span></div>
+            <div class="distance-card"><strong>21,1 km</strong><span>La mezza maratona: richiede una preparazione progressiva e tempo dedicato al recupero.</span></div>
+            <div class="distance-card"><strong>42,195 km</strong><span>La maratona: un progetto di lungo periodo, con preparazione strutturata e obiettivi realistici.</span></div>
+            <div class="distance-card"><strong>Trail</strong><span>Si corre su sentieri e terreni variabili: distanza e dislivello descrivono insieme il percorso.</span></div>
+            <div class="distance-card"><strong>Camminata</strong><span>Molti eventi accolgono chi cammina. È un modo valido per partecipare e vivere l'atmosfera.</span></div>
+          </div>
+        </section>
+        <section class="content-section" id="iniziare">
+          <p class="section-label">04 · Il primo passo</p><h2 class="section-title">Come iniziare a correre, davvero.</h2>
+          <p>Se non corri da tempo, non devi dimostrare nulla alla prima uscita. Scegli un tragitto semplice e un momento in cui non hai fretta. Alternare tratti di corsa leggera e camminata è un modo comune per prendere confidenza: puoi accorciare o allungare le pause in base a come ti senti.</p>
+          <div class="steps">
+            <div class="step"><h3>Comincia con poco</h3><p>Una breve uscita a ritmo facile è sufficiente per iniziare. L'obiettivo iniziale è ripetere l'esperienza, non fare un record.</p></div>
+            <div class="step"><h3>Alterna e respira</h3><p>Inserisci camminate tra brevi tratti di corsa. Dovresti poter mantenere un'intensità adatta al tuo livello.</p></div>
+            <div class="step"><h3>Lascia spazio al riposo</h3><p>Tra le uscite, prevedi giorni di recupero. Riposo e regolarità fanno parte del percorso quanto le scarpe.</p></div>
+          </div>
+          <p>Un programma noto del servizio sanitario britannico NHS accompagna i principianti con tre uscite settimanali, intervalli di corsa e camminata e giorni di recupero. Può essere un riferimento da valutare, adattandolo alle proprie condizioni e indicazioni professionali.</p>
+        </section>
+        <section class="content-section" id="programma">
+          <p class="section-label">05 · Un esempio flessibile</p><h2 class="section-title">Una settimana semplice, da adattare.</h2>
+          <p>Questo schema illustra come distribuire il movimento senza concentrare tutto in una giornata. Non è una prescrizione né un programma personalizzato: riduci o modifica le uscite se non sono adatte a te.</p>
+          <table class="week-plan"><thead><tr><th>Giorno</th><th>Idea per la settimana</th></tr></thead><tbody>
+            <tr><td>Lunedì</td><td>Camminata tranquilla oppure riposo.</td></tr>
+            <tr><td>Martedì</td><td>Brevi tratti di corsa leggera alternati alla camminata.</td></tr>
+            <tr><td>Mercoledì</td><td>Riposo o attività leggera che conosci già.</td></tr>
+            <tr><td>Giovedì</td><td>Ripeti una sessione facile, senza cercare di superare quella precedente.</td></tr>
+            <tr><td>Venerdì</td><td>Riposo.</td></tr>
+            <tr><td>Sabato</td><td>Un'uscita breve e piacevole, anche solo camminata veloce.</td></tr>
+            <tr><td>Domenica</td><td>Recupero e preparazione della settimana successiva.</td></tr>
+          </tbody></table>
+        </section>
+        <section class="content-section" id="attrezzatura">
+          <p class="section-label">06 · Prepararsi</p><h2 class="section-title">L'essenziale è sentirsi a proprio agio.</h2>
+          <p>Per iniziare non serve un guardaroba tecnico completo. Scegli capi adatti alla temperatura e scarpe comode per il tipo di percorso che vuoi affrontare.</p>
+          <ul class="gear-list"><li><span><strong>Scarpe:</strong> prova un modello confortevole e della misura adatta; per acquisti specifici puoi chiedere consiglio a un negozio specializzato.</span></li><li><span><strong>Abbigliamento:</strong> preferisci strati leggeri e tessuti adatti al clima. Al buio, renditi visibile.</span></li><li><span><strong>Acqua:</strong> considera temperatura e durata dell'uscita, organizzandoti in modo adeguato.</span></li><li><span><strong>Telefono o orologio:</strong> possono essere utili, ma non sono necessari per cominciare.</span></li><li><span><strong>Percorso:</strong> scegli un luogo sicuro, semplice da raggiungere e adatto alla tua esperienza.</span></li></ul>
+        </section>
+        <section class="content-section" id="tecnica">
+          <p class="section-label">07 · Trovare il ritmo</p><h2 class="section-title">La tecnica migliore è quella sostenibile.</h2>
+          <p>Non esiste una postura identica per tutti. Cerca un movimento rilassato: spalle morbide, sguardo in avanti e passi naturali. Evita di inseguire subito velocità o distanze viste da altri. Un riscaldamento con qualche minuto di camminata e un ritorno graduale alla calma aiutano a iniziare e concludere l'uscita senza fretta.</p>
+          <p>Se corri con altre persone, puoi provare il “test della conversazione”: a un ritmo facile dovrebbe essere possibile parlare a frasi brevi. È un riferimento informale, non una misura medica dello sforzo.</p>
+        </section>
+        <section class="content-section" id="recupero">
+          <p class="section-label">08 · Ascoltare il corpo</p><h2 class="section-title">Il recupero è parte dell'allenamento.</h2>
+          <p>Alternare le uscite con giornate di riposo lascia spazio al recupero. Aumenta l'impegno con gradualità e non sentirti obbligato a seguire i ritmi di qualcun altro. Sonno, alimentazione regolare e varietà delle attività contribuiscono a una routine equilibrata.</p>
+          <aside class="note">Un fastidio non va ignorato per portare a termine una tabella. Se provi dolore durante la corsa, fermati; se persiste o hai dubbi sulle tue condizioni di salute, rivolgiti a un medico o a un professionista qualificato. In caso di patologie o di un lungo periodo di inattività, chiedi un parere prima di iniziare un programma impegnativo.</aside>
+        </section>
+        <section class="content-section" id="gara">
+          <p class="section-label">09 · Il giorno dell'evento</p><h2 class="section-title">La prima gara non è un esame.</h2>
+          <p>Per goderti l'esperienza, controlla in anticipo distanza, dislivello, orario e luogo di ritrovo. Leggi il regolamento e prepara quello che ti serve la sera prima. Arriva con margine, parti a un ritmo prudente e concediti di camminare quando ne hai bisogno. Puoi anche scegliere un obiettivo non cronometrico: arrivare al traguardo con il sorriso è un ottimo risultato.</p>
+          <h3>Una piccola lista per la partenza</h3><ul class="gear-list"><li><span>Controlla il percorso e le indicazioni dell'organizzatore.</span></li><li><span>Indossa abiti e scarpe che hai già provato.</span></li><li><span>Arriva con tempo per orientarti e fare un riscaldamento tranquillo.</span></li><li><span>Rispetta il tuo ritmo e le istruzioni del personale sul percorso.</span></li></ul>
+        </section>
+        <section class="content-section" id="domande">
+          <p class="section-label">10 · Le domande più comuni</p><h2 class="section-title">Dubbi normali, risposte semplici.</h2>
+          <div class="faq">
+            <details><summary>Posso cominciare anche se non sono allenato?</summary><p>Puoi iniziare dal livello che senti accessibile, anche camminando. Se hai condizioni di salute, sintomi o dubbi, confrontati con un professionista sanitario prima di aumentare l'attività.</p></details>
+            <details><summary>Quante volte alla settimana dovrei correre?</summary><p>Dipende dalla tua esperienza e dalla situazione personale. Un principiante può valutare uscite distanziate da giorni di recupero, aumentando solo se si sente bene. I programmi per principianti, come quello dell'NHS citato sotto, prevedono riposo tra le sessioni.</p></details>
+            <details><summary>Devo correre sempre senza fermarmi?</summary><p>No. Camminare è una parte utile dell'uscita, soprattutto quando inizi. Molti programmi alternano intenzionalmente corsa e camminata.</p></details>
+            <details><summary>Come scelgo la prima gara?</summary><p>Cerca una distanza e un percorso compatibili con la tua preparazione. Controlla se l'evento prevede una camminata o un tempo massimo e leggi sempre le informazioni dell'organizzatore.</p></details>
+            <details><summary>Una corsa lenta serve comunque?</summary><p>Sì: correre o camminare a un ritmo sostenibile è un modo valido per muoversi e costruire continuità. Non tutte le uscite devono essere veloci.</p></details>
+          </div>
+        </section>
+        <section class="content-section" id="fonti">
+          <p class="section-label">Per approfondire</p><h2 class="section-title">Fonti e letture utili.</h2>
+          <p>Le indicazioni qui riportate sono generali e non sostituiscono un parere medico o un programma individuale.</p>
+          <div class="sources"><a href="https://www.who.int/europe/news-room/fact-sheets/item/physical-activity" target="_blank" rel="noopener noreferrer">Organizzazione Mondiale della Sanità — Attività fisica ↗</a><a href="https://www.nhs.uk/better-health/get-active/get-running-with-couch-to-5k/couch-to-5k-running-plan/" target="_blank" rel="noopener noreferrer">NHS — Programma Couch to 5K per principianti ↗</a><a href="https://www.nhs.uk/live-well/exercise/knee-pain-and-other-running-injuries/" target="_blank" rel="noopener noreferrer">NHS — Dolore al ginocchio e infortuni nella corsa ↗</a></div>
+        </section>
+        <aside class="closing"><h2>La tua prossima corsa potrebbe essere più vicina di quanto pensi.</h2><a class="button-link" href="index.html#corse">Esplora il calendario <span aria-hidden="true">↗</span></a></aside>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">C</span><span>CORSE VIVE</span></a><p>Fatto per chi ama mettersi in movimento, un chilometro alla volta.</p><a href="index.html#corse">Trova la tua prossima corsa ↗</a></div></footer>
+  <script>
+    const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')];
+    let tocUpdatePending = false;
+    function updateActiveTocLink() {
+      const activationLine = window.innerHeight * 0.34;
+      let activeId = null;
+      for (const link of tocLinks) {
+        const section = document.getElementById(link.hash.slice(1));
+        if (section && section.getBoundingClientRect().top <= activationLine) activeId = link.hash;
+      }
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        activeId = tocLinks.length ? tocLinks[tocLinks.length - 1].hash : activeId;
+      }
+      tocLinks.forEach(link => {
+        if (link.hash === activeId) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      tocUpdatePending = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (tocUpdatePending) return;
+      tocUpdatePending = true;
+      window.requestAnimationFrame(updateActiveTocLink);
+    }, { passive: true });
+    window.addEventListener('resize', updateActiveTocLink);
+    window.addEventListener('hashchange', updateActiveTocLink);
+    updateActiveTocLink();
+  </script>
+</body>
+</html>
